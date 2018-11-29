@@ -6,26 +6,40 @@
     <RelativeLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:background="#00ffffff"
-        >
+        android:background="#00ffffff">
+
         <ImageView
-            android:id="@+id/disc"
+            android:id="@+id/recordCover"
             android:layout_width="80dp"
             android:layout_height="80dp"
-            android:padding="10dp"
-            />
+            android:padding="10dp" />
+
         <TextView
             android:id="@+id/songsName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="5dp"
-            android:layout_marginLeft="5dp"
-            android:layout_toRightOf="@+id/disc"
-            android:layout_toEndOf="@+id/disc"
-            android:layout_centerInParent="true"
-            android:textSize="20sp"
+            android:layout_alignParentTop="true"
+            android:layout_marginStart="26dp"
+            android:layout_marginLeft="26dp"
+            android:layout_marginTop="11dp"
+            android:layout_toEndOf="@+id/recordCover"
+
             android:textColor="#ffad60"
-            />
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:layout_toRightOf="@+id/recordCover" />
+
+        <TextView
+            android:id="@+id/artistsName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/songsName"
+            android:layout_toRightOf="@+id/recordCover"
+            android:layout_marginStart="26dp"
+            android:layout_marginLeft="26dp"
+            android:textSize="18sp"
+            android:textColor="#ffad60"
+            android:layout_toEndOf="@+id/recordCover" />
 
     </RelativeLayout>
 </LinearLayout>

@@ -1,3 +1,11 @@
 <resources>
     <string name="app_name">Music App</string>
+    <string name="txtGLY">Girls Like You</string>
+    <string name="txtSOY">Shape Of You</string>
+    <string name="txtADCG">Anh Đếch Cần Gì Nhiều Ngoài Em</string>
+    <string name="txtC">Closer</string>
+    <string name="artistADCG">Đen ft Vũ., Thành Đồng</string>
+    <string name="artistGLY">Maroon 5 ft. Cardi B</string>
+    <string name="artistSOY">Ed Sheeran</string>
+    <string name="artistC">The Chainsmokers ft. Halsey</string>
 </resources>

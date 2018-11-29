@@ -17,7 +17,11 @@
             </intent-filter>
         </activity>
         <activity android:name=".SplashScreen" />
-        <activity android:name=".SongListing"></activity>
+        <activity android:name=".SongListing" />
+        <activity android:name=".SongGLY" />
+        <activity android:name=".SongSOY" />
+        <activity android:name=".SongADCG" />
+        <activity android:name=".SongC"></activity>
     </application>
 
 </manifest>

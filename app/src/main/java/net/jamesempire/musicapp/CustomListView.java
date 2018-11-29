@@ -15,12 +15,16 @@ public class CustomListView extends ArrayAdapter<String>
 {
     private String[] songs;
     private Activity context;
+    private Integer[] albumCover;
+    private String[] artists;
 
-    public CustomListView(Activity context, String[] songs) {
+    public CustomListView(Activity context, String[] songs, Integer[] albumCover,String[] artists ) {
         super(context, R.layout.custom_list_view,songs);
 
         this.context = context;
         this.songs = songs;
+        this.albumCover =albumCover;
+        this.artists = artists;
     }
 
     @NonNull
@@ -38,20 +42,23 @@ public class CustomListView extends ArrayAdapter<String>
         else {
             viewHolder = (ViewHolder) r.getTag();
         }
-        viewHolder.disc.setImageResource(R.drawable.disc);
+        viewHolder.disc.setImageResource(albumCover[position]);
         viewHolder.songsName.setText(songs[position]);
+        viewHolder.artistsName.setText(artists[position]);
+
 
 
         return r;
     }
     class ViewHolder
     {
-        TextView songsName;
+        TextView songsName,artistsName;
         ImageView disc;
         ViewHolder(View v)
         {
             songsName = v.findViewById(R.id.songsName);
-            disc = v.findViewById(R.id.disc);
+            disc = v.findViewById(R.id.recordCover);
+            artistsName = v.findViewById(R.id.artistsName);
         }
     }
 }
