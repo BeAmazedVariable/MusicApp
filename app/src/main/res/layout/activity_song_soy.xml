@@ -9,9 +9,9 @@
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:src="@drawable/soy_background"
+        android:contentDescription="@string/imgBackground"
         android:scaleType="centerCrop"
-        />
+        android:src="@drawable/soy_background" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -39,8 +39,10 @@
                 app:cardCornerRadius="105dp">
 
                 <ImageView
+                    android:id="@+id/rotateDisc"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:contentDescription="@string/imgBackground"
                     android:scaleType="centerCrop"
                     android:src="@drawable/soy_background" />
             </android.support.v7.widget.CardView>
@@ -78,25 +80,26 @@
             >
 
             <TextView
+                android:id="@+id/elapseTime"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:text="0:00"
                 android:textColor="#ffffff" />
 
             <SeekBar
+                android:id="@+id/seekBar"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="4"
                 android:thumbTint="#800000" />
 
             <TextView
+                android:id="@+id/remainTime"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:text="-2:33"
                 android:textColor="#ffffff" />
         </LinearLayout>
 
@@ -111,24 +114,30 @@
             android:weightSum="5">
 
             <ImageButton
+                android:id="@+id/btnPrevious"
                 android:layout_width="0dp"
                 android:layout_height="30dp"
                 android:layout_weight="2"
                 android:background="#00ffffff"
+                android:contentDescription="@string/btnPrevious"
                 android:src="@drawable/previous_button" />
 
             <ImageButton
+                android:id="@+id/btnPlay"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:background="#00ffffff"
+                android:contentDescription="@string/btnPlay"
                 android:src="@drawable/play_button" />
 
             <ImageButton
+                android:id="@+id/btnNext"
                 android:layout_width="0dp"
                 android:layout_height="30dp"
                 android:layout_weight="2"
                 android:background="#00ffffff"
+                android:contentDescription="@string/btnNext"
                 android:src="@drawable/next_button" />
 
         </LinearLayout>
@@ -140,17 +149,21 @@
             android:orientation="horizontal">
 
             <ImageButton
+                android:id="@+id/btnRepeat"
                 android:layout_width="60dp"
                 android:layout_height="50dp"
                 android:layout_weight="1"
                 android:background="#00ffffff"
+                android:contentDescription="@string/btnRepeat"
                 android:src="@drawable/repeat_button" />
 
             <ImageButton
+                android:id="@+id/btnShuffle"
                 android:layout_width="60dp"
                 android:layout_height="50dp"
                 android:layout_weight="1"
                 android:background="#00ffffff"
+                android:contentDescription="@string/btnShuffle"
                 android:src="@drawable/shuffle_button" />
 
         </LinearLayout>
