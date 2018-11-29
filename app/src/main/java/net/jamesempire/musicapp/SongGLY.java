@@ -41,14 +41,14 @@ public class SongGLY extends AppCompatActivity implements View.OnClickListener, 
 
             //Define the variable with appropriate component on the layout for the song
             imgDisc = findViewById(R.id.rotateDisc);
-            seekBar = findViewById(R.id.seekGLY);
-            play = findViewById(R.id.playGLY);
-            next = findViewById(R.id.nextGLY);
-            previous = findViewById(R.id.previousGLY);
-            repeat = findViewById(R.id.repeatGLY);
-            shuffle = findViewById(R.id.shuffleGLY);
-            elapseTimeLabel = findViewById(R.id.elapseGLY);
-            remainTimeLabel = findViewById(R.id.remainGLY);
+            seekBar = findViewById(R.id.seekBar);
+            play = findViewById(R.id.btnPlay);
+            next = findViewById(R.id.btnNext);
+            previous = findViewById(R.id.btnPrevious);
+            repeat = findViewById(R.id.btnRepeat);
+            shuffle = findViewById(R.id.btnShuffle);
+            elapseTimeLabel = findViewById(R.id.elapseTime);
+            remainTimeLabel = findViewById(R.id.remainTime);
 
             //Create a new handlers to manage the threads
             checkSeekQueue = new Handler();
@@ -168,7 +168,7 @@ public class SongGLY extends AppCompatActivity implements View.OnClickListener, 
             Animation rotate = AnimationUtils.loadAnimation(this,R.anim.rotate);
             switch (v.getId())
             {
-                case R.id.playGLY:
+                case R.id.btnPlay:
                     //Pause the music
                     if (song.isPlaying()) {
                         song.pause();
@@ -194,7 +194,7 @@ public class SongGLY extends AppCompatActivity implements View.OnClickListener, 
                         play.setImageResource(R.drawable.pause_button);
                     }
                     break;
-                case R.id.nextGLY:
+                case R.id.btnNext:
                     if (shuffleState == SHUFFLE_CHECKED)
                     {
                         //Shuffle the songs if the shuffle button is clicked
@@ -219,7 +219,7 @@ public class SongGLY extends AppCompatActivity implements View.OnClickListener, 
                         startActivity(new Intent(SongGLY.this,SongSOY.class));
                     }
                     break;
-                case R.id.previousGLY:
+                case R.id.btnPrevious:
                     if (shuffleState == SHUFFLE_CHECKED)
                     {
                         //Shuffle the songs if the shuffle button is clicked
@@ -244,7 +244,7 @@ public class SongGLY extends AppCompatActivity implements View.OnClickListener, 
                         startActivity(new Intent(SongGLY.this,SongC.class));
                     }
                     break;
-                case R.id.repeatGLY:
+                case R.id.btnRepeat:
                     //Decide to looping this song or not
                     if(loopingState == REPEAT_CHECKED)
                     {
@@ -259,7 +259,7 @@ public class SongGLY extends AppCompatActivity implements View.OnClickListener, 
                         repeat.setImageResource(R.drawable.clicked_repeat_button);
                     }
                     break;
-                case R.id.shuffleGLY:
+                case R.id.btnShuffle:
                     //Decide if we shuffle the songs or not
                     if(shuffleState == SHUFFLE_CHECKED)
                     {
@@ -280,11 +280,11 @@ public class SongGLY extends AppCompatActivity implements View.OnClickListener, 
         @Override
         public boolean onLongClick(View v) {
             switch (v.getId()) {
-                case R.id.nextGLY:
+                case R.id.btnNext:
                     //Fast forward 5 secs
                     song.seekTo(song.getCurrentPosition() + 5000);
                     break;
-                case R.id.previousGLY:
+                case R.id.btnPrvious:
                     //Move back 5 secs
                     song.seekTo(song.getCurrentPosition() - 5000);
                     break;

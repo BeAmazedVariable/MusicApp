@@ -8,4 +8,10 @@
     <string name="artistGLY">Maroon 5 ft. Cardi B</string>
     <string name="artistSOY">Ed Sheeran</string>
     <string name="artistC">The Chainsmokers ft. Halsey</string>
+    <string name="imgBackground">Song background Image</string>
+    <string name="btnPrevious">Previous button</string>
+    <string name="btnPlay">Play button</string>
+    <string name="btnNext">Next button</string>
+    <string name="btnRepeat">Repeat button</string>
+    <string name="btnShuffle">Shuffle button</string>
 </resources>
