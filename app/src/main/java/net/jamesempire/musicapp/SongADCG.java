@@ -195,6 +195,7 @@ public class SongADCG extends AppCompatActivity implements View.OnClickListener,
                 }
                 break;
             case R.id.btnNext:
+                song.reset();
                 if (shuffleState == SHUFFLE_CHECKED)
                 {
                     //Shuffle the songs if the shuffle button is clicked
@@ -209,6 +210,7 @@ public class SongADCG extends AppCompatActivity implements View.OnClickListener,
                 }
                 break;
             case R.id.btnPrevious:
+                song.reset();
                 if (shuffleState == SHUFFLE_CHECKED)
                 {
                     //Shuffle the songs if the shuffle button is clicked

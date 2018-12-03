@@ -196,6 +196,7 @@ public class SongGLY extends AppCompatActivity implements View.OnClickListener, 
                     }
                     break;
                 case R.id.btnNext:
+                    song.reset();
                     if (shuffleState == SHUFFLE_CHECKED)
                     {
                         songsShuffle();
@@ -209,6 +210,7 @@ public class SongGLY extends AppCompatActivity implements View.OnClickListener, 
                     }
                     break;
                 case R.id.btnPrevious:
+                    song.reset();
                     if (shuffleState == SHUFFLE_CHECKED)
                     {
                        songsShuffle();
@@ -275,16 +277,15 @@ public class SongGLY extends AppCompatActivity implements View.OnClickListener, 
             //Shuffle the songs if the shuffle button is clicked
             Random songNumber = new Random();
             int nextSong = songNumber.nextInt(3);
-            switch (nextSong)
-            {
+            switch (nextSong) {
                 case 0:
-                    shuffledSong.setClass(getApplicationContext(),SongSOY.class);
+                    shuffledSong.setClass(getApplicationContext(), SongSOY.class);
                     break;
                 case 1:
-                    shuffledSong.setClass(getApplicationContext(),SongADCG.class);
+                    shuffledSong.setClass(getApplicationContext(), SongADCG.class);
                     break;
                 case 2:
-                    shuffledSong.setClass(getApplicationContext(),SongC.class);
+                    shuffledSong.setClass(getApplicationContext(), SongC.class);
                     break;
             }
             sendData(shuffledSong);

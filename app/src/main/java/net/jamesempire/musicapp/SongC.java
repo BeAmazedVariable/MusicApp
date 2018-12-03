@@ -196,23 +196,13 @@ public class SongC extends AppCompatActivity implements View.OnClickListener, Vi
                 }
                 break;
             case R.id.btnNext:
+                song.reset();
                 if (shuffleState == SHUFFLE_CHECKED)
                 {
+
                     //Shuffle the songs if the shuffle button is clicked
-                    Random songNumber = new Random();
-                    int nextSong = songNumber.nextInt(3);
-                    switch (nextSong)
-                    {
-                        case 0:
-                            startActivity(new Intent(SongC.this,SongGLY.class));
-                            break;
-                        case 1:
-                            startActivity(new Intent(SongC.this,SongSOY.class));
-                            break;
-                        case 2:
-                            startActivity(new Intent(SongC.this,SongADCG.class));
-                            break;
-                    }
+                    songsShuffle();
+
                 }
                 else
                 {
@@ -223,6 +213,7 @@ public class SongC extends AppCompatActivity implements View.OnClickListener, Vi
                 }
                 break;
             case R.id.btnPrevious:
+                song.reset();
                 if (shuffleState == SHUFFLE_CHECKED)
                 {
                     songsShuffle();

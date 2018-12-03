@@ -196,6 +196,7 @@ public class SongSOY extends AppCompatActivity implements View.OnClickListener, 
                 }
                 break;
             case R.id.btnNext:
+                song.reset();
                 if (shuffleState == SHUFFLE_CHECKED)
                 {
                    songsShuffle();
@@ -209,6 +210,7 @@ public class SongSOY extends AppCompatActivity implements View.OnClickListener, 
                 }
                 break;
             case R.id.btnPrevious:
+                song.reset();
                 if (shuffleState == SHUFFLE_CHECKED)
                 {
                     songsShuffle();
