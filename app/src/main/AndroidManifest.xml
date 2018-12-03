@@ -18,10 +18,14 @@
         </activity>
         <activity android:name=".SplashScreen" />
         <activity android:name=".SongListing" />
-        <activity android:name=".SongGLY" />
-        <activity android:name=".SongSOY" />
-        <activity android:name=".SongADCG" />
-        <activity android:name=".SongC"></activity>
+        <activity android:name=".SongGLY"
+            />
+        <activity android:name=".SongSOY"
+            />
+        <activity android:name=".SongADCG"
+            />
+        <activity android:name=".SongC"
+            />
     </application>
 
 </manifest>

@@ -15,13 +15,13 @@ import android.widget.TextView;
 
 import java.util.Random;
 
-public class SongSOY extends AppCompatActivity {
+public class SongSOY extends AppCompatActivity implements View.OnClickListener, View.OnLongClickListener {
 
     //Declare the variable we need to use
     public ImageView imgDisc;
     private MediaPlayer song;
     private SeekBar seekBar;
-    private ImageButton play,next,previous;
+    private ImageButton play;
     private ImageButton repeat,shuffle;
     private TextView elapseTimeLabel,remainTimeLabel;
     int lengthSong;
@@ -42,8 +42,8 @@ public class SongSOY extends AppCompatActivity {
         imgDisc = findViewById(R.id.rotateDisc);
         seekBar = findViewById(R.id.seekBar);
         play = findViewById(R.id.btnPlay);
-        next = findViewById(R.id.btnNext);
-        previous = findViewById(R.id.btnPrevious);
+        ImageButton next = findViewById(R.id.btnNext);
+        ImageButton previous = findViewById(R.id.btnPrevious);
         repeat = findViewById(R.id.btnRepeat);
         shuffle = findViewById(R.id.btnShuffle);
         elapseTimeLabel = findViewById(R.id.elapseTime);
@@ -84,6 +84,8 @@ public class SongSOY extends AppCompatActivity {
 
             }
         });
+
+        retrieveData();
 
         seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
@@ -196,51 +198,27 @@ public class SongSOY extends AppCompatActivity {
             case R.id.btnNext:
                 if (shuffleState == SHUFFLE_CHECKED)
                 {
-                    //Shuffle the songs if the shuffle button is clicked
-                    Random songNumber = new Random();
-                    int nextSong = songNumber.nextInt(3);
-                    switch (nextSong)
-                    {
-                        case 0:
-                            startActivity(new Intent(SongGLY.this,SongSOY.class));
-                            break;
-                        case 1:
-                            startActivity(new Intent(SongGLY.this,SongADCG.class));
-                            break;
-                        case 2:
-                            startActivity(new Intent(SongGLY.this,SongC.class));
-                            break;
-                    }
+                   songsShuffle();
                 }
                 else
                 {
                     //Start the next song in the list
-                    startActivity(new Intent(SongGLY.this,SongSOY.class));
+                    Intent nextSong = new Intent (SongSOY.this,SongADCG.class);
+                    sendData(nextSong);
+                    startActivity(nextSong);
                 }
                 break;
             case R.id.btnPrevious:
                 if (shuffleState == SHUFFLE_CHECKED)
                 {
-                    //Shuffle the songs if the shuffle button is clicked
-                    Random songNumber = new Random();
-                    int nextSong = songNumber.nextInt(3);
-                    switch (nextSong)
-                    {
-                        case 0:
-                            startActivity(new Intent(SongGLY.this,SongSOY.class));
-                            break;
-                        case 1:
-                            startActivity(new Intent(SongGLY.this,SongADCG.class));
-                            break;
-                        case 2:
-                            startActivity(new Intent(SongGLY.this,SongC.class));
-                            break;
-                    }
+                    songsShuffle();
                 }
                 else
                 {
                     //Start the next song in the list
-                    startActivity(new Intent(SongGLY.this,SongC.class));
+                    Intent nextSong = new Intent (SongSOY.this,SongGLY.class);
+                    sendData(nextSong);
+                    startActivity(nextSong);
                 }
                 break;
             case R.id.btnRepeat:
@@ -274,7 +252,6 @@ public class SongSOY extends AppCompatActivity {
                 break;
         }
     }
-
     //Fast forward 5 secs or move back 5 secs when the user hold the button
     @Override
     public boolean onLongClick(View v) {
@@ -283,12 +260,63 @@ public class SongSOY extends AppCompatActivity {
                 //Fast forward 5 secs
                 song.seekTo(song.getCurrentPosition() + 5000);
                 break;
-            case R.id.btnPrvious:
+            case R.id.btnPrevious:
                 //Move back 5 secs
                 song.seekTo(song.getCurrentPosition() - 5000);
                 break;
         }
         return true;
     }
+    public void songsShuffle()
+    {
+        Intent shuffledSong = new Intent();
+        //Shuffle the songs if the shuffle button is clicked
+        Random songNumber = new Random();
+        int nextSong = songNumber.nextInt(3);
+        switch (nextSong)
+        {
+            case 0:
+                shuffledSong.setClass(getApplicationContext(),SongGLY.class);
+                break;
+            case 1:
+                shuffledSong.setClass(getApplicationContext(),SongADCG.class);
+                break;
+            case 2:
+                shuffledSong.setClass(getApplicationContext(),SongC.class);
+                break;
+        }
+        sendData(shuffledSong);
+        startActivity(shuffledSong);
+    }
+    public void sendData(Intent nextSong)
+    {
+        nextSong.putExtra("LoopingState",loopingState);
+        nextSong.putExtra("ShuffleState",shuffleState);
+    }
+    public void retrieveData()
+    {
+        Intent retrieveResources = getIntent();
+        loopingState = retrieveResources.getIntExtra("LoopingState",0);
+        shuffleState = retrieveResources.getIntExtra("ShuffleState",0);
+
+        if(loopingState == REPEAT_CHECKED)
+        {
+            song.setLooping(true);
+            repeat.setImageResource(R.drawable.clicked_repeat_button);
+        }
+        else
+        {
+            song.setLooping(false);
+            repeat.setImageResource(R.drawable.repeat_button);
+        }
+
+        if (shuffleState == SHUFFLE_CHECKED)
+        {
+            shuffle.setImageResource(R.drawable.clicked_shuffle_button);
+        }
+        else
+        {
+            shuffle.setImageResource(R.drawable.shuffle_button);
+        }
     }
 }

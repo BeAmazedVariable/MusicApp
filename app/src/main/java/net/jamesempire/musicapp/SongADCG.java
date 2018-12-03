@@ -15,7 +15,7 @@ import android.widget.TextView;
 
 import java.util.Random;
 
-public class SongADCG extends AppCompatActivity {
+public class SongADCG extends AppCompatActivity implements View.OnClickListener, View.OnLongClickListener {
     //Declare the variable we need to use
     public ImageView imgDisc;
     private MediaPlayer song;
@@ -83,6 +83,8 @@ public class SongADCG extends AppCompatActivity {
 
             }
         });
+
+        retrieveData();
 
         seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
@@ -196,50 +198,28 @@ public class SongADCG extends AppCompatActivity {
                 if (shuffleState == SHUFFLE_CHECKED)
                 {
                     //Shuffle the songs if the shuffle button is clicked
-                    Random songNumber = new Random();
-                    int nextSong = songNumber.nextInt(3);
-                    switch (nextSong)
-                    {
-                        case 0:
-                            startActivity(new Intent(SongGLY.this,SongSOY.class));
-                            break;
-                        case 1:
-                            startActivity(new Intent(SongGLY.this,SongADCG.class));
-                            break;
-                        case 2:
-                            startActivity(new Intent(SongGLY.this,SongC.class));
-                            break;
-                    }
+                    songsShuffle();
                 }
                 else
                 {
                     //Start the next song in the list
-                    startActivity(new Intent(SongGLY.this,SongSOY.class));
+                    Intent nextSong = new Intent (SongADCG.this,SongC.class);
+                    sendData(nextSong);
+                    startActivity(nextSong);
                 }
                 break;
             case R.id.btnPrevious:
                 if (shuffleState == SHUFFLE_CHECKED)
                 {
                     //Shuffle the songs if the shuffle button is clicked
-                    Random songNumber = new Random();
-                    int nextSong = songNumber.nextInt(3);
-                    switch (nextSong)
-                    {
-                        case 0:
-                            startActivity(new Intent(SongGLY.this,SongSOY.class));
-                            break;
-                        case 1:
-                            startActivity(new Intent(SongGLY.this,SongADCG.class));
-                            break;
-                        case 2:
-                            startActivity(new Intent(SongGLY.this,SongC.class));
-                            break;
-                    }
+                    songsShuffle();
                 }
                 else
                 {
                     //Start the next song in the list
-                    startActivity(new Intent(SongGLY.this,SongC.class));
+                    Intent nextSong = new Intent (SongADCG.this,SongSOY.class);
+                    sendData(nextSong);
+                    startActivity(nextSong);
                 }
                 break;
             case R.id.btnRepeat:
@@ -273,7 +253,6 @@ public class SongADCG extends AppCompatActivity {
                 break;
         }
     }
-
     //Fast forward 5 secs or move back 5 secs when the user hold the button
     @Override
     public boolean onLongClick(View v) {
@@ -282,12 +261,64 @@ public class SongADCG extends AppCompatActivity {
                 //Fast forward 5 secs
                 song.seekTo(song.getCurrentPosition() + 5000);
                 break;
-            case R.id.btnPrvious:
+            case R.id.btnPrevious:
                 //Move back 5 secs
                 song.seekTo(song.getCurrentPosition() - 5000);
                 break;
         }
         return true;
     }
+    public void songsShuffle()
+    {
+        Intent shuffledSong = new Intent();
+        //Shuffle the songs if the shuffle button is clicked
+        Random songNumber = new Random();
+        int nextSong = songNumber.nextInt(3);
+        switch (nextSong)
+        {
+            case 0:
+                shuffledSong.setClass(getApplicationContext(),SongGLY.class);
+                break;
+            case 1:
+                shuffledSong.setClass(getApplicationContext(),SongSOY.class);
+                break;
+            case 2:
+                shuffledSong.setClass(getApplicationContext(),SongC.class);
+                break;
+        }
+        sendData(shuffledSong);
+        startActivity(shuffledSong);
+    }
+    public void sendData(Intent nextSong)
+    {
+        nextSong.putExtra("LoopingState",loopingState);
+        nextSong.putExtra("ShuffleState",shuffleState);
+    }
+    public void retrieveData()
+    {
+        Intent retrieveResources = getIntent();
+        loopingState = retrieveResources.getIntExtra("LoopingState",0);
+        shuffleState = retrieveResources.getIntExtra("ShuffleState",0);
+
+        if(loopingState == REPEAT_CHECKED)
+        {
+            song.setLooping(true);
+            repeat.setImageResource(R.drawable.clicked_repeat_button);
+        }
+        else
+        {
+            song.setLooping(false);
+            repeat.setImageResource(R.drawable.repeat_button);
+        }
+
+        if (shuffleState == SHUFFLE_CHECKED)
+        {
+            shuffle.setImageResource(R.drawable.clicked_shuffle_button);
+        }
+        else
+        {
+            shuffle.setImageResource(R.drawable.shuffle_button);
+        }
     }
 }
+

@@ -21,7 +21,7 @@ public class LoadingScreen extends AppCompatActivity {
 
         loadingBar =findViewById(R.id.loadingBar);
 
-
+        //Set the time to end the activity using the timer
         TimerTask loadingScreen = new TimerTask()
         {
             @Override
@@ -35,6 +35,7 @@ public class LoadingScreen extends AppCompatActivity {
         loadingScreenTime.schedule(loadingScreen,4000);
     }
 
+    //Let the progress bar to load
     private void loadingProgressBar()
     {
         for (int progress=0; progress < 100; progress += 10) {

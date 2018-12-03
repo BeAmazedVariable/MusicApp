@@ -22,13 +22,14 @@ public class SplashScreen extends AppCompatActivity {
         ImageView slogan = findViewById(R.id.slogan);
         View bar = findViewById(R.id.bar);
 
+        //Set animation for the logo
         Animation fade = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fade);
         logo.setAnimation(fade);
-
+        //Set animation for the slogan
         Animation pushLeft = AnimationUtils.loadAnimation(getApplicationContext(),R.anim.push_left);
         slogan.setAnimation(pushLeft);
         bar.setAnimation(pushLeft);
-
+        //Set the end time to move to another activity
         TimerTask splashScreen = new TimerTask()
         {
             @Override
