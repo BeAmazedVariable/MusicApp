@@ -10,20 +10,19 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
-
-public class CustomListView extends ArrayAdapter<String>
-{
+//Pass the view that need to be customized
+public class CustomListView extends ArrayAdapter<String> {
     private String[] songs;
     private Activity context;
     private Integer[] albumCover;
     private String[] artists;
 
-    public CustomListView(Activity context, String[] songs, Integer[] albumCover,String[] artists ) {
-        super(context, R.layout.custom_list_view,songs);
+    public CustomListView(Activity context, String[] songs, Integer[] albumCover, String[] artists) {
+        super(context, R.layout.custom_list_view, songs);
 
         this.context = context;
         this.songs = songs;
-        this.albumCover =albumCover;
+        this.albumCover = albumCover;
         this.artists = artists;
     }
 
@@ -31,31 +30,29 @@ public class CustomListView extends ArrayAdapter<String>
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
         View r = convertView;
-        ViewHolder viewHolder =null;
-        if (r == null)
-        {
+        ViewHolder viewHolder = null;
+        //Translate the view from the layout to the .java code
+        if (r == null) {
             LayoutInflater layoutInflater = context.getLayoutInflater();
-            r = layoutInflater.inflate(R.layout.custom_list_view,null,true);
+            r = layoutInflater.inflate(R.layout.custom_list_view, null, true);
             viewHolder = new ViewHolder(r);
             r.setTag(viewHolder);
-        }
-        else {
+        } else {
             viewHolder = (ViewHolder) r.getTag();
         }
+        //Format the image and the text
         viewHolder.disc.setImageResource(albumCover[position]);
         viewHolder.songsName.setText(songs[position]);
         viewHolder.artistsName.setText(artists[position]);
-
-
-
         return r;
     }
-    class ViewHolder
-    {
-        TextView songsName,artistsName;
+
+    //Hold the view in the custom_list_view lay out
+    class ViewHolder {
+        TextView songsName, artistsName;
         ImageView disc;
-        ViewHolder(View v)
-        {
+
+        ViewHolder(View v) {
             songsName = v.findViewById(R.id.songsName);
             disc = v.findViewById(R.id.recordCover);
             artistsName = v.findViewById(R.id.artistsName);
