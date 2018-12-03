@@ -22,8 +22,8 @@ public class SongSOY extends AppCompatActivity implements View.OnClickListener, 
     private MediaPlayer song;
     private SeekBar seekBar;
     private ImageButton play;
-    private ImageButton repeat,shuffle;
-    private TextView elapseTimeLabel,remainTimeLabel;
+    private ImageButton repeat, shuffle;
+    private TextView elapseTimeLabel, remainTimeLabel;
     int lengthSong;
     final int SHUFFLE_CHECKED = 1;
     final int SHUFFLE_UNCHECKED = 0;
@@ -31,8 +31,9 @@ public class SongSOY extends AppCompatActivity implements View.OnClickListener, 
     final int REPEAT_UNCHECKED = 0;
     int loopingState = REPEAT_UNCHECKED;
     int shuffleState = SHUFFLE_UNCHECKED;
-    private Handler checkSeekQueue,checkTimeLabelQueue;  //A handler is and thread manager which queue the thread in the background (organize purpose)
-    Runnable checkSeek,checkTimeLabel;        //Create a new thread
+    private Handler checkSeekQueue, checkTimeLabelQueue;  //A handler is and thread manager which queue the thread in the background (organize purpose)
+    Runnable checkSeek, checkTimeLabel;        //Create a new thread
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -65,7 +66,7 @@ public class SongSOY extends AppCompatActivity implements View.OnClickListener, 
         previous.setOnLongClickListener(this);
 
         //Define the song
-        song = MediaPlayer.create(getApplicationContext(),R.raw.soy);
+        song = MediaPlayer.create(getApplicationContext(), R.raw.soy);
 
 
         //Get the duration of the song
@@ -79,20 +80,20 @@ public class SongSOY extends AppCompatActivity implements View.OnClickListener, 
                 seekBar.setMax(lengthSong);
 
                 //Start the thread to update seek bar and time label
-                changeSeekBar(seekBar,song);
+                changeSeekBar(seekBar, song);
                 changeTime();
 
             }
         });
 
+        //Retrieve the data from the previous activity and act upon the data
         retrieveData();
 
         seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 //Seek to the position follow by follow the user input
-                if (fromUser)
-                {
+                if (fromUser) {
                     song.seekTo(progress);
                 }
             }
@@ -107,55 +108,60 @@ public class SongSOY extends AppCompatActivity implements View.OnClickListener, 
 
             }
         });
+
+        //Action take place by the end of the song
+        song.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+            @Override
+            public void onCompletion(MediaPlayer mp) {
+                nextSong();
+            }
+        });
     }
+
     //A thread to change the seek bar to the current position
-    private void changeSeekBar(final SeekBar seekBar,final MediaPlayer music)
-    {
+    private void changeSeekBar(final SeekBar seekBar, final MediaPlayer music) {
         //Set the seek bar progress to the current position
         seekBar.setProgress(music.getCurrentPosition());
 
         //Create a loop that call the thread every 1 sec to check for the seek bar
-        if (music.isPlaying())
-        {
+        if (music.isPlaying()) {
             checkSeek = new Runnable() {
                 @Override
                 public void run() {
-                    changeSeekBar(seekBar,music);
+                    changeSeekBar(seekBar, music);
                 }
             };
-            checkSeekQueue.postDelayed(checkSeek,1000);
+            checkSeekQueue.postDelayed(checkSeek, 1000);
         }
     }
 
     //Function to keep track at the elapse time and remaining time
-    private void changeTime()
-    {
+    private void changeTime() {
         //Send the time to createTimeLabel so as to process the output follow a formal
-        String elapsedTime= createTimeLabel(song.getCurrentPosition());
+        String elapsedTime = createTimeLabel(song.getCurrentPosition());
         elapseTimeLabel.setText(elapsedTime);
-        String remainingTime= createTimeLabel(lengthSong - song.getCurrentPosition());
+        String remainingTime = createTimeLabel(lengthSong - song.getCurrentPosition());
         remainTimeLabel.setText("- " + remainingTime);
         //Create a loop that call the thread every 1 sec to check for the time label
-        if (song.isPlaying())
-        {
+        if (song.isPlaying()) {
             checkTimeLabel = new Runnable() {
                 @Override
                 public void run() {
                     changeTime();
                 }
             };
-            checkTimeLabelQueue.postDelayed(checkTimeLabel,1000);
+            checkTimeLabelQueue.postDelayed(checkTimeLabel, 1000);
         }
     }
+
     //Function to format the time label
-    public String createTimeLabel (int time){
-        String timeLabel="";
+    public String createTimeLabel(int time) {
+        String timeLabel = "";
         int min = time / 1000 / 60;
         int sec = time / 1000 % 60;
 
         timeLabel = min + ":";
-        if (sec <10)
-        {
+        if (sec < 10) {
             timeLabel += "0";
 
         }
@@ -164,11 +170,11 @@ public class SongSOY extends AppCompatActivity implements View.OnClickListener, 
         return timeLabel;
     }
 
+    //On click method to implement each button in the layout
     @Override
     public void onClick(View v) {
-        Animation rotate = AnimationUtils.loadAnimation(this,R.anim.rotate);
-        switch (v.getId())
-        {
+        Animation rotate = AnimationUtils.loadAnimation(this, R.anim.rotate);
+        switch (v.getId()) {
             case R.id.btnPlay:
                 //Pause the music
                 if (song.isPlaying()) {
@@ -188,7 +194,7 @@ public class SongSOY extends AppCompatActivity implements View.OnClickListener, 
                     imgDisc.startAnimation(rotate);
 
                     //Start the thread to update seek bar and time label
-                    changeSeekBar(seekBar,song);
+                    changeSeekBar(seekBar, song);
                     changeTime();
 
                     //Change to the pause image
@@ -197,42 +203,27 @@ public class SongSOY extends AppCompatActivity implements View.OnClickListener, 
                 break;
             case R.id.btnNext:
                 song.reset();
-                if (shuffleState == SHUFFLE_CHECKED)
-                {
-                   songsShuffle();
-                }
-                else
-                {
-                    //Start the next song in the list
-                    Intent nextSong = new Intent (SongSOY.this,SongADCG.class);
-                    sendData(nextSong);
-                    startActivity(nextSong);
+                if (shuffleState == SHUFFLE_CHECKED) {
+                    songsShuffle();
+                } else {
+                    nextSong();
                 }
                 break;
             case R.id.btnPrevious:
                 song.reset();
-                if (shuffleState == SHUFFLE_CHECKED)
-                {
+                if (shuffleState == SHUFFLE_CHECKED) {
                     songsShuffle();
-                }
-                else
-                {
-                    //Start the next song in the list
-                    Intent nextSong = new Intent (SongSOY.this,SongGLY.class);
-                    sendData(nextSong);
-                    startActivity(nextSong);
+                } else {
+                    previousSong();
                 }
                 break;
             case R.id.btnRepeat:
                 //Decide to looping this song or not
-                if(loopingState == REPEAT_CHECKED)
-                {
+                if (loopingState == REPEAT_CHECKED) {
                     song.setLooping(false);
                     loopingState = REPEAT_UNCHECKED;
                     repeat.setImageResource(R.drawable.repeat_button);
-                }
-                else
-                {
+                } else {
                     song.setLooping(true);
                     loopingState = REPEAT_CHECKED;
                     repeat.setImageResource(R.drawable.clicked_repeat_button);
@@ -240,20 +231,18 @@ public class SongSOY extends AppCompatActivity implements View.OnClickListener, 
                 break;
             case R.id.btnShuffle:
                 //Decide if we shuffle the songs or not
-                if(shuffleState == SHUFFLE_CHECKED)
-                {
+                if (shuffleState == SHUFFLE_CHECKED) {
 
                     shuffleState = SHUFFLE_UNCHECKED;
                     shuffle.setImageResource(R.drawable.shuffle_button);
-                }
-                else
-                {
+                } else {
                     shuffleState = SHUFFLE_CHECKED;
                     shuffle.setImageResource(R.drawable.clicked_shuffle_button);
                 }
                 break;
         }
     }
+
     //Fast forward 5 secs or move back 5 secs when the user hold the button
     @Override
     public boolean onLongClick(View v) {
@@ -269,56 +258,65 @@ public class SongSOY extends AppCompatActivity implements View.OnClickListener, 
         }
         return true;
     }
-    public void songsShuffle()
-    {
+
+    //Shuffle the songs if the shuffle button is clicked
+    public void songsShuffle() {
         Intent shuffledSong = new Intent();
-        //Shuffle the songs if the shuffle button is clicked
         Random songNumber = new Random();
         int nextSong = songNumber.nextInt(3);
-        switch (nextSong)
-        {
+        switch (nextSong) {
             case 0:
-                shuffledSong.setClass(getApplicationContext(),SongGLY.class);
+                shuffledSong.setClass(getApplicationContext(), SongGLY.class);
                 break;
             case 1:
-                shuffledSong.setClass(getApplicationContext(),SongADCG.class);
+                shuffledSong.setClass(getApplicationContext(), SongADCG.class);
                 break;
             case 2:
-                shuffledSong.setClass(getApplicationContext(),SongC.class);
+                shuffledSong.setClass(getApplicationContext(), SongC.class);
                 break;
         }
         sendData(shuffledSong);
         startActivity(shuffledSong);
     }
-    public void sendData(Intent nextSong)
-    {
-        nextSong.putExtra("LoopingState",loopingState);
-        nextSong.putExtra("ShuffleState",shuffleState);
-    }
-    public void retrieveData()
-    {
-        Intent retrieveResources = getIntent();
-        loopingState = retrieveResources.getIntExtra("LoopingState",0);
-        shuffleState = retrieveResources.getIntExtra("ShuffleState",0);
 
-        if(loopingState == REPEAT_CHECKED)
-        {
+    //Send the data to the next song
+    public void sendData(Intent nextSong) {
+        nextSong.putExtra("LoopingState", loopingState);
+        nextSong.putExtra("ShuffleState", shuffleState);
+    }
+
+    //Retrieve data from the previous song
+    public void retrieveData() {
+        Intent retrieveResources = getIntent();
+        loopingState = retrieveResources.getIntExtra("LoopingState", 0);
+        shuffleState = retrieveResources.getIntExtra("ShuffleState", 0);
+
+        if (loopingState == REPEAT_CHECKED) {
             song.setLooping(true);
             repeat.setImageResource(R.drawable.clicked_repeat_button);
-        }
-        else
-        {
+        } else {
             song.setLooping(false);
             repeat.setImageResource(R.drawable.repeat_button);
         }
 
-        if (shuffleState == SHUFFLE_CHECKED)
-        {
+        if (shuffleState == SHUFFLE_CHECKED) {
             shuffle.setImageResource(R.drawable.clicked_shuffle_button);
-        }
-        else
-        {
+        } else {
             shuffle.setImageResource(R.drawable.shuffle_button);
         }
+    }
+
+    //Move to the next song
+    public void nextSong() {
+        Intent nextSong = new Intent(getApplicationContext(), SongADCG.class);
+        sendData(nextSong);
+        startActivity(nextSong);
+    }
+
+    //Move to the previous song
+    public void previousSong() {
+        Intent previousSong = new Intent(getApplicationContext(), SongGLY.class);
+        sendData(previousSong);
+        startActivity(previousSong);
     }
 }
