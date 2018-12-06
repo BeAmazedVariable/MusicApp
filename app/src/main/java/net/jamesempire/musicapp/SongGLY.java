@@ -86,6 +86,9 @@ public class SongGLY extends AppCompatActivity implements View.OnClickListener, 
             }
         });
 
+        //Retrieve the data from the previous activity and act upon the data
+        retrieveData();
+
         //Move to a specific time of the song through the user input
         seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override

@@ -9,6 +9,7 @@ import android.widget.ListView;
 
 public class SongListing extends AppCompatActivity {
 
+    //Declare the variable and string we need
     ListView listSong;
     String[] songs = {"Girls like you", "Shape of you", "Anh đếch cần gì nhiều ngoài em","Closer"};
     String[] artists = {"Maroon 5 ft. Cardi B", "Ed Sheeran", "Đen ft. Vũ., Thành Đồng","The Chainsmokers ft. Halsey"};
@@ -19,10 +20,19 @@ public class SongListing extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_song_listing);
 
+        //Declare the variable with the object of the layout
         listSong = findViewById(R.id.songList);
+
+        //Send the parameter that will be manipulate by the CustomListView class
         CustomListView myListView = new CustomListView(this,songs,albumCover,artists);
+
+        //Set adapter for the list view class
         listSong.setAdapter(myListView);
+
+        //Set the divider bar to separate each item
         listSong.setDividerHeight(20);
+
+        //Define the action base on the clicked item in the list view
         listSong.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
